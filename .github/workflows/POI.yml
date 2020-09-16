@@ -9,7 +9,7 @@ env:
 defaults:
   run:
     shell: bash
-    working-directory: apis/poi
+    working-directory: apis/poi/web
     
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -41,7 +41,7 @@ jobs:
           ref: fob2000-patch-5
              # Runs a single command using the runners shell
 
-      #- name: Run a one-line script 
+      #  name: Run a one-line script 
       #  run: dotnet test
       
       # Create an issue on failure
