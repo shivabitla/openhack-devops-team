@@ -37,7 +37,7 @@ jobs:
 
       - name: Run a one-line script
         working-directory: apis/poi
-        run: go test
+        run: .NET test
       
       # Create an issue on failure
       - name: Indentify failure and create issue 
