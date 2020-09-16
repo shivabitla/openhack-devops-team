@@ -51,16 +51,15 @@ jobs:
         with:
           filename : .github/ISSUE_TEMPLATE_custom.md
         
-    # Build and deploy if master
-    if: {{ github.ref == 'ref/head/master' }}
-    # Authenticate
-    - name: Azure authentication
+      # Build and deploy if master
+  
+      - name: Azure authentication
         uses: azure/login@v1
         with:
             creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: ACR authentication
-         uses: azure/docker-login@v1 
+        uses: azure/docker-login@v1 
         with:
             login-server: ${{ env.CONTAINER_REGISTRY }}
             username: ${{ secrets.REGISTRY_USERNAME }}
@@ -72,6 +71,7 @@ jobs:
 
       - name: 'Deploy to Azure Web App for Container'
         uses: azure/webapps-deploy@v2
+        if: github.ref == 'ref/head/master'
         with: 
             app-name: ${{ env.AZURE_WEBAPP_NAME }} 
             images: ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-user-java:${{ github.sha }}
