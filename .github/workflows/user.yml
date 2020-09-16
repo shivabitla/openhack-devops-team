@@ -15,12 +15,12 @@ defaults:
 # events but only for the master branch
 on:
   push:
-    branches: [ Infinitecupakes-patch-2 ]
+    branches: [ infinitecupakes-patch-2 ]
     paths: 
       - apis/userprofile/**
       - .github/workflows/user.yml
   pull_request:
-    branches: [ Infinitecupcakes-patch-2 ]
+    branches: [ infinitecupcakes-patch-2 ]
     paths: 
       - apis/userprofile/**
       - .github/workflows/user.yml
