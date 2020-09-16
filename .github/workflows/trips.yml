@@ -9,13 +9,13 @@ env:
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [ trips-cd-branch ]
     paths: 
       - apis/trips/**
       - .github/workflows/trips.yml
     
   pull_request:
-    branches: [ master ]
+    branches: [ trips-cd-branch ]
     paths: 
       - apis/trips/**
       - .github/workflows/trips.yml
@@ -30,30 +30,11 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@master
-      - name: Azure authentication
-        uses: azure/login@v1
+      - uses: actions/checkout@v2
         with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
-      - name: ACR authentication
-        uses: azure/docker-login@v1
-        with:
-          login-server: ${{ env.CONTAINER_REGISTRY }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}    
-      - name: Docker Build & Push to ACR
-        run: |
-          docker build . -t ${{ env.CONTAINER_REGISTRY }}/nodejsapp:${{ github.sha }}
-          docker push ${{ env.CONTAINER_REGISTRY }}/nodejsapp:${{ github.sha }} 
-          
-      - name: 'Deploy to Azure Web App for Container'
-        uses: azure/webapps-deploy@v2
-        with: 
-          app-name: ${{ env.AZURE_WEBAPP_NAME }} 
-          images: ${{ env.CONTAINER_REGISTRY }}/goapp:${{ github.sha }}
+          ref: trips-cd-branch
+             # Runs a single command using the runners shell
 
-      # Runs a single command using the runners shell
       - name: Run a one-line script
         working-directory: apis/trips
         run: go test
@@ -66,3 +47,27 @@ jobs:
           GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
         with:
           filename : .github/ISSUE_TEMPLATE_custom.md
+          
+      - name: Azure authentication
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: ACR authentication
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.CONTAINER_REGISTRY }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}    
+      - name: Docker Build & Push to ACR
+        run: |
+          docker build . -t ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-trips:${{ github.sha }}
+          docker push ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-trips:${{ github.sha }} 
+          
+      - name: 'Deploy to Azure Web App for Container'
+        uses: azure/webapps-deploy@v2
+        with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }} 
+          images: ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-trips:${{ github.sha }}
+
+
