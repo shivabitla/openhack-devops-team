@@ -15,13 +15,13 @@ defaults:
 # events but only for the master branch
 on:
   push:
-    branches: [ trips-cd-branch ]
+    branches: [ master ]
     paths: 
       - apis/trips/**
       - .github/workflows/trips.yml
     
   pull_request:
-    branches: [ trips-cd-branch ]
+    branches: [ master ]
     paths: 
       - apis/trips/**
       - .github/workflows/trips.yml
@@ -37,8 +37,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-        with:
-          ref: trips-cd-branch
+    #    with:
+     #     ref: trips-cd-branch
              # Runs a single command using the runners shell
 
       - name: Run a one-line script
@@ -70,6 +70,7 @@ jobs:
           docker push ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-trips:${{ github.sha }} 
           
       - name: 'Deploy to Azure Web App for Container'
+        if: github.ref == 'refs/heads/master'
         uses: azure/webapps-deploy@v2
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }} 
