@@ -12,13 +12,13 @@ defaults:
 # events but only for the master branch
 on:
   push:
-    branches: [ java-branch ]
+    branches: [ master ]
     paths: 
       - apis/user-java/**
       - .github/workflows/java-cd.yml
     
   pull_request:
-    branches: [ java-branch ]
+    branches: [ master ]
     paths: 
       - apis/user-java/**
       - .github/workflows/java-cd.yml
@@ -35,7 +35,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
-          ref: java-branch
+          ref: master
              # Runs a single command using the runners shell
 
       - name: Run a one-line script
