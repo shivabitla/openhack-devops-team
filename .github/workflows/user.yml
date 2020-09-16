@@ -9,7 +9,7 @@ env:
 defaults:
   run:
     shell: bash
-    working-directory: userprofile
+    working-directory: apis/userprofile
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
