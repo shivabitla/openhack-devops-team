@@ -37,7 +37,7 @@ jobs:
 
       - name: Run a one-line script
         working-directory: apis/user-java
-        run: go test
+        run: mvn verify
       
       # Create an issue on failure
       - name: Indentify failure and create issue 
