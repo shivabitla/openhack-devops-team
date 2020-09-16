@@ -1,6 +1,3 @@
-
-
-
 name: CI
 env:
   AZURE_WEBAPP_NAME: openhackad69qxk8userjava
@@ -53,26 +50,29 @@ jobs:
           GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
         with:
           filename : .github/ISSUE_TEMPLATE_custom.md
-          
-      - name: Azure authentication
+        
+    # Build and deploy if master
+    if: {{ github.ref == 'ref/head/master' }}
+    # Authenticate
+    - name: Azure authentication
         uses: azure/login@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
+            creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: ACR authentication
-        uses: azure/docker-login@v1
+         uses: azure/docker-login@v1 
         with:
-          login-server: ${{ env.CONTAINER_REGISTRY }}
-          username: ${{ secrets.REGISTRY_USERNAME }}
-          password: ${{ secrets.REGISTRY_PASSWORD }}    
+            login-server: ${{ env.CONTAINER_REGISTRY }}
+            username: ${{ secrets.REGISTRY_USERNAME }}
+            password: ${{ secrets.REGISTRY_PASSWORD }}    
       - name: Docker Build & Push to ACR
         run: |
-          docker build . -t ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-user-java:${{ github.sha }}
-          docker push ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-user-java:${{ github.sha }} 
-          
+            docker build . -t ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-user-java:${{ github.sha }}
+            docker push ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-user-java:${{ github.sha }} 
+
       - name: 'Deploy to Azure Web App for Container'
         uses: azure/webapps-deploy@v2
         with: 
-          app-name: ${{ env.AZURE_WEBAPP_NAME }} 
-          images: ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-user-java:${{ github.sha }}
+            app-name: ${{ env.AZURE_WEBAPP_NAME }} 
+            images: ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-user-java:${{ github.sha }}
 
