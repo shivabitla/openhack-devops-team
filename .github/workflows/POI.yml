@@ -41,8 +41,8 @@ jobs:
           ref: trips-cd-branch
              # Runs a single command using the runners shell
 
-      - name: Run a one-line script
-        run: dotnet test
+      #- name: Run a one-line script
+      #  run: dotnet test
       
       # Create an issue on failure
       - name: Indentify failure and create issue 
