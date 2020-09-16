@@ -15,13 +15,13 @@ defaults:
 # events but only for the master branch
 on:
   push:
-    branches: [ fob2000-patch-5 ]
+    branches: [ master ]
     paths :
     - apis/poi/**
     - .github/workflows/POI.yml
 
   pull_request:
-    branches: [ fob2000-patch-5 ]
+    branches: [ master ]
     paths :
     - apis/poi/**
     - .github/workflows/POI.yml
@@ -71,6 +71,7 @@ jobs:
           
       - name: 'Deploy to Azure Web App for Container'
         uses: azure/webapps-deploy@v2
+          if: github.ref == 'ref/head/master'
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }} 
           images: ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-poi:${{ github.sha }}
