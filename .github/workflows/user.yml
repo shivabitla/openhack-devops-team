@@ -15,12 +15,12 @@ defaults:
 # events but only for the master branch
 on:
   push:
-    branches: [ Infinitecupcakes-patch-2 ]
+    branches: [ master ]
     paths: 
       - apis/userprofile/**
       - .github/workflows/user.yml
   pull_request:
-    branches: [ Infinitecupcakes-patch-2 ]
+    branches: [ master ]
     paths: 
       - apis/userprofile/**
       - .github/workflows/user.yml
@@ -73,6 +73,7 @@ jobs:
           
       - name: 'Deploy to Azure Web App for Container'
         uses: azure/webapps-deploy@v2
+        if: github.ref == 'ref/head/master'
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }} 
           images: ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-userprofile:${{ github.sha }}
