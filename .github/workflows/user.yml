@@ -3,6 +3,13 @@
 # Update to add workflow for User API
 
 name: CI
+env:
+  AZURE_WEBAPP_NAME: openhackad69qxk8userprofile
+  CONTAINER_REGISTRY: openhackad69qxk8acr.azurecr.io
+defaults:
+  run:
+    shell: bash
+    working-directory: scripts
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -10,12 +17,12 @@ on:
   push:
     branches: [ Infinitecupakes-patch-2 ]
     paths: 
-      - apis/user/**
+      - apis/userprofile/**
       - .github/workflows/user.yml
   pull_request:
-    branches: [ Ifinitecupcakes-patch-2 ]
+    branches: [ Infinitecupcakes-patch-2 ]
     paths: 
-      - apis/user/**
+      - apis/userprofile/**
       - .github/workflows/user.yml
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -32,7 +39,6 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        working-directory: apis/user
         run: mvn test 
       
       # Create an issue on failure
@@ -43,3 +49,26 @@ jobs:
           GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
         with:
           filename : .github/ISSUE_TEMPLATE_custom.md
+    
+      # Access Azure
+      - name: Azure authentication
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: ACR authentication
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.CONTAINER_REGISTRY }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}    
+      - name: Docker Build & Push to ACR
+        run: |
+          docker build . -t ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-userprofile:${{ github.sha }} 
+          docker push ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-userprofile:${{ github.sha }} 
+          
+      - name: 'Deploy to Azure Web App for Container'
+        uses: azure/webapps-deploy@v2
+        with: 
+          app-name: ${{ env.AZURE_WEBAPP_NAME }} 
+          images: ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-userprofile:${{ github.sha }}
