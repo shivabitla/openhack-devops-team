@@ -6,11 +6,11 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: [ fob2000-patch-4 ]
+    branches: [ fob2000-patch-5 ]
     paths :
     - apis/poi/**
   pull_request:
-    branches: [ fob2000-patch-4 ]
+    branches: [ fob2000-patch-5 ]
     paths :
     - apis/poi/**
 
