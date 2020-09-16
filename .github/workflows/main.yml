@@ -35,4 +35,4 @@ jobs:
       - name: Create an issue on push
         uses: JasonEtco/create-an-issue@v2
         env:
-          key:  ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
