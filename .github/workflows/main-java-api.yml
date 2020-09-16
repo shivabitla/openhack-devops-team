@@ -40,3 +40,16 @@ jobs:
           GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
         with:
           filename : .github/ISSUE_TEMPLATE_custom.md
+
+      # CD
+      - name: Continuous user-java API deployment script
+        echo "Building API-USER-JAVA image..."
+        echo "Changing directory to $GITOHTEAMDIRPATH/apis/user-java..."
+        cd "openhack-devops-team/apis/user-java"
+        az acr build --image "devopsoh/api-user-java:${BASEIMAGETAG}" --registry $ACRNAME --file Dockerfile
+        
+        <Azure Container Registry URI>/<ACR_repository_name>:<Revision Number> where the ACR_repository_name follows the naming convention devopsoh/<image_name>:<tag>.
+        
+          
+       
+       
