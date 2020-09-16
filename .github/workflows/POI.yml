@@ -5,6 +5,12 @@ name: CI
 env:
   AZURE_WEBAPP_NAME: openhackad69qxk8trips
   CONTAINER_REGISTRY: openhackad69qxk8acr.azurecr.io
+
+defaults:
+  run:
+    shell: bash
+    working-directory: apis/trips
+    
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
@@ -32,11 +38,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
-          ref: fob2000-patch-5
+          ref: trips-cd-branch
              # Runs a single command using the runners shell
 
       - name: Run a one-line script
-        working-directory: apis/poi
         run: dotnet test
       
       # Create an issue on failure
