@@ -8,13 +8,15 @@ name: CI
 # events but only for the master branch
 on:
   push:
-    branches: [ Infinitecupakes-patch-1 ]
+    branches: [ Infinitecupakes-patch-2 ]
     paths: 
       - apis/user/**
+      - .github/workflows/user.yml
   pull_request:
-    branches: [ Ifinitecupcakes-patch-1 ]
+    branches: [ Ifinitecupcakes-patch-2 ]
     paths: 
       - apis/user/**
+      - .github/workflows/user.yml
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
