@@ -61,7 +61,7 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}    
       - name: Docker Build & Push to ACR
         run: |
-          docker build . -t ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-trips:${{ github.sha }} -f api/trips/Dockerfile
+          docker build . -t ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-trips:${{ github.sha }} -f apis/trips/Dockerfile
           docker push ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-trips:${{ github.sha }} 
           
       - name: 'Deploy to Azure Web App for Container'
