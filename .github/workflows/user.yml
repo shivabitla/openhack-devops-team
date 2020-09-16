@@ -15,7 +15,7 @@ defaults:
 # events but only for the master branch
 on:
   push:
-    branches: [ Infinitecupakes-patch-2 ]
+    branches: [ Infinitecupcakes-patch-2 ]
     paths: 
       - apis/userprofile/**
       - .github/workflows/user.yml
