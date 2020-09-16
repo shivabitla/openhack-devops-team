@@ -1,6 +1,6 @@
 name: CI
 env:
-  AZURE_WEBAPP_NAME: openhackad69qxk8trips
+  AZURE_WEBAPP_NAME: openhackad69qxk8userjava
   CONTAINER_REGISTRY: openhackad69qxk8acr.azurecr.io
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -8,8 +8,8 @@ on:
   push:
     branches: [ java-branch ]
     paths: 
-      - apis/trips/**
-      - .github/workflows/trips.yml
+      - apis/user-java/**
+      - .github/workflows/java-cd.yml
     
   pull_request:
     branches: [ java-branch ]
@@ -27,7 +27,7 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@master
+      - uses: actions/checkout@java-branch
       - name: Azure authentication
         uses: azure/login@v1
         with:
@@ -52,7 +52,7 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        working-directory: apis/trips
+        working-directory: apis/user-java
         run: go test
       
       # Create an issue on failure
