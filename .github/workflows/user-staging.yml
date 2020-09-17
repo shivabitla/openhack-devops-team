@@ -96,3 +96,10 @@ jobs:
         with:
             url: hhttps://openhackad69qxk8userprofile.azurewebsites.net/api/healthcheck/user
             method: GET
+      
+      - name: Azure CLI script
+        if: success()
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az webapp deployment slot auto-swap --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --slot staging --target-slot production:  
