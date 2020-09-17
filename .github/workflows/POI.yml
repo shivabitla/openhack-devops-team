@@ -70,7 +70,7 @@ jobs:
           docker push ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-poi:${{ github.sha }} 
           
       - name: 'Deploy to Azure Web App for Container'
-        if: github.ref == 'refs/heads/master'
+     # if: github.ref == 'refs/heads/master'
         uses: azure/webapps-deploy@v2
         
         with: 
