@@ -3,33 +3,33 @@
 
 name: CI
 env:
-  AZURE_WEBAPP_NAME: openhackad69qxk8poi
+  AZURE_WEBAPP_NAME: openhackad69qxk8trips
   CONTAINER_REGISTRY: openhackad69qxk8acr.azurecr.io
 
 defaults:
   run:
     shell: bash
-    working-directory: apis/poi/web
+    working-directory: apis/trips
     
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
   push:
-    branches: [ fob2000-patch-5 ]
-    paths :
-    - apis/poi/**
-    - .github/workflows/POI.yml
-
+    branches: [ trips-cd-branch ]
+    paths: 
+      - apis/trips/**
+      - .github/workflows/trips-staging.yml
+    
   pull_request:
-    branches: [ fob2000-patch-5 ]
-    paths :
-    - apis/poi/**
-    - .github/workflows/POI.yml
+    branches: [ trips-cd-branch ]
+    paths: 
+      - apis/trips/**
+      - .github/workflows/trips-staging.yml
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build-and-deploy-to-dev:
+  build-and-push-to-registry:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -37,12 +37,12 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-        with:
-          ref: fob2000-patch-5
+    #    with:
+     #     ref: trips-cd-branch
              # Runs a single command using the runners shell
 
-      - name: Run a one-line script 
-        run: dotnet test
+      - name: Run a one-line script
+        run: go test
       
       # Create an issue on failure
       - name: Indentify failure and create issue 
@@ -66,14 +66,28 @@ jobs:
           password: ${{ secrets.REGISTRY_PASSWORD }}    
       - name: Docker Build & Push to ACR
         run: |
-          docker build . -t ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-poi:${{ github.sha }} 
-          docker push ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-poi:${{ github.sha }} 
+          docker build . -t ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-trips:${{ github.sha }} 
+          docker push ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-trips:${{ github.sha }} 
           
+  deploy-to-app:
+    needs: build-and-push-to-registry
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure authentication
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+                    
       - name: 'Deploy to Azure Web App for Container'
-     # if: github.ref == 'refs/heads/master'
+  #      if: github.ref == 'refs/heads/master'
         uses: azure/webapps-deploy@v2
-        
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }} 
-          slot-name: staging  
+          slot-name: staging
           images: ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-poi:${{ github.sha }}
+      - name : Check the api payload response
+        uses: satak/webrequest-action@master
+        with:
+            url: https://openhackad69qxk8poi-staging.azurewebsites.net/api/healthcheck/poi
+            method: GET
