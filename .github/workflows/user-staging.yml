@@ -74,7 +74,7 @@ jobs:
           docker build . -t ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-userprofile:${{ github.sha }} 
           docker push ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-userprofile:${{ github.sha }} 
           
- deploy-to-app:
+  deploy-to-app:
     needs: build-and-push-to-registry
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
