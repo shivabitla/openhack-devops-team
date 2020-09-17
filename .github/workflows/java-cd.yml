@@ -1,6 +1,4 @@
 
-
-
 name: CI
 env:
   AZURE_WEBAPP_NAME: openhackad69qxk8userjava
