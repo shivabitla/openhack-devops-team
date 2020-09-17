@@ -91,3 +91,10 @@ jobs:
         with:
             url: https://openhackad69qxk8poi-staging.azurewebsites.net/api/healthcheck/poi
             method: GET
+            
+      - name: Azure CLI script for swap
+        if: success()
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+           az webapp deployment slot auto-swap --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --slot staging --target-slot production
