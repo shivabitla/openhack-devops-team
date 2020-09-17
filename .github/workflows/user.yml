@@ -4,7 +4,7 @@
 
 name: CI
 env:
-  AZURE_WEBAPP_NAME: openhackad69qxk8userprofile
+  AZURE_WEBAPP_NAME: openhackad69qxk8userprofile/staging
   CONTAINER_REGISTRY: openhackad69qxk8acr.azurecr.io
 defaults:
   run:
