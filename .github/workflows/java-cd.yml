@@ -76,8 +76,20 @@ jobs:
           app-name: ${{ env.AZURE_WEBAPP_NAME }} 
           slot-name: staging
           images: ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-user-java:${{ github.sha }}
+    
       - name : Check the api payload response
         uses: satak/webrequest-action@master
         with:
             url: https://openhackad69qxk8trips-staging.azurewebsites.net/api/healthcheck/trips
             method: GET
+            
+      - name: Azure CLI to Swap
+        if: success()
+        
+      - name: Azure authentication
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+           
+           az webapp deployment slot swap -g openhackad69qxk8 -n ${{ env.AZURE_WEBAPP_NAME }} --slot staging \
+           -target-slot production
