@@ -18,12 +18,12 @@ on:
     branches: [ Infinitecupcakes-patch-staging ]
     paths: 
       - apis/userprofile/**
-      - .github/workflows/user.yml
+      - .github/workflows/user-staging.yml
   pull_request:
     branches: [ Infinitecupcakes-patch-staging ]
     paths: 
       - apis/userprofile/**
-      - .github/workflows/user.yml
+      - .github/workflows/user-staging.yml
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
