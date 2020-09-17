@@ -24,7 +24,7 @@ import javax.validation.constraints.*;
 import java.util.List;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2018-08-03T19:26:46.543Z")
 
-@Api(value = "healthcheck", description = "the healthcheck API")
+@Api(value = "healthcheck-tommy", description = "the healthcheck API")
 public interface HealthcheckApi {
 
     @ApiOperation(value = "", nickname = "healthcheckUserGet", notes = "Returns healthcheck for systems looking to ensure API is up and operational", response = Healthcheck.class, tags={  })
