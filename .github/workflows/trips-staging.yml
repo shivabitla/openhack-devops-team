@@ -3,7 +3,7 @@
 
 name: CI
 env:
-  AZURE_WEBAPP_NAME: staging (openhackad69qxk8trips/staging)
+  AZURE_WEBAPP_NAME: openhackad69qxk8trips
   CONTAINER_REGISTRY: openhackad69qxk8acr.azurecr.io
 
 defaults:
@@ -74,4 +74,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }} 
+          slot-name: openhackad69qxk8trips-staging
           images: ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-trips:${{ github.sha }}
