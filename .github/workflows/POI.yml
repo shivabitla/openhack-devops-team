@@ -3,7 +3,7 @@
 
 name: CI
 env:
-  AZURE_WEBAPP_NAME: openhackad69qxk8poi
+  AZURE_WEBAPP_NAME: openhackad69qxk8poi/staging
   CONTAINER_REGISTRY: openhackad69qxk8acr.azurecr.io
 
 defaults:
@@ -15,13 +15,13 @@ defaults:
 # events but only for the master branch
 on:
   push:
-    branches: [ master ]
+    branches: [ fob2000-patch-5 ]
     paths :
     - apis/poi/**
     - .github/workflows/POI.yml
 
   pull_request:
-    branches: [ master ]
+    branches: [ fob2000-patch-5 ]
     paths :
     - apis/poi/**
     - .github/workflows/POI.yml
