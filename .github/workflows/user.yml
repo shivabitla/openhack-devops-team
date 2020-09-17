@@ -4,7 +4,7 @@
 
 name: CI
 env:
-  AZURE_WEBAPP_NAME: openhackad69qxk8userprofile/staging
+  AZURE_WEBAPP_NAME: openhackad69qxk8userprofile
   CONTAINER_REGISTRY: openhackad69qxk8acr.azurecr.io
 defaults:
   run:
@@ -76,4 +76,5 @@ jobs:
         if: github.ref == 'refs/heads/master'
         with: 
           app-name: ${{ env.AZURE_WEBAPP_NAME }} 
+          slot-name: staging  
           images: ${{ env.CONTAINER_REGISTRY }}/devopsoh/api-userprofile:${{ github.sha }}
