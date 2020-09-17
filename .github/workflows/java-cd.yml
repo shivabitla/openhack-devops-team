@@ -5,6 +5,7 @@ name: CI
 env:
   AZURE_WEBAPP_NAME: openhackad69qxk8userjava
   CONTAINER_REGISTRY: openhackad69qxk8acr.azurecr.io
+  RESOURCE GROUP: openhackad69qxk8
   
 defaults:
   run:
@@ -83,13 +84,9 @@ jobs:
             url: https://openhackad69qxk8trips-staging.azurewebsites.net/api/healthcheck/trips
             method: GET
             
-      - name: Azure CLI to Swap
+      - name: Azure CLI TO swap
         if: success()
-        
-      - name: Azure authentication
-        uses: azure/login@v1
+        uses: azure/CLI@v1
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-           
-           az webapp deployment slot swap -g openhackad69qxk8 -n ${{ env.AZURE_WEBAPP_NAME }} --slot staging \
-           -target-slot production
+          inlineScript: |
+            az webapp deployment slot swap --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --slot staging --target-slot production
